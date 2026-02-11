@@ -1,0 +1,6 @@
+Files that are too large to upload to GitHub, but that can be provided upon requested:
+
+# AllParks_records_FinalFiltered_Better2.csv - Raw file containing all records after quality filtering (GBIF format) (329,340 kb)
+# combined_all_parks_with_guild.csv - Occupancy estimates output file with insect grouping (Guild) appended, for use when assessing differences between pollinator groups. (25,954 kb)
+# occupancy_model_output.rds - Full sparta occupancy model output file (1,284,176 kb)
+# occupancy_model_output_taxcorr_Remodelled.rds - Sparta occupancy model output file for remaining species that had their taxonomy appended and remodelled (~20 species) (811,142 kb)
