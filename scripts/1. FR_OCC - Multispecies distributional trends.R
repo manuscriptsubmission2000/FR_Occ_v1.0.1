@@ -1,21 +1,5 @@
 ############################################
-# Cooke et al. (2023)-style multispecies trends
-# Replicating composite geometric mean occupancy trends by Zone-Year
-# using BUGS summary output:
-#   - Propagate uncertainty via Beta Monte Carlo draws (per species-year-zone)
-#   - Composite = geometric mean across species per zone-year per draw
-#   - Summaries = MEDIAN + 95% credible intervals (2.5%, 97.5%)
-#   - Growth rate (% annual) between first and last year:
-#       100 * ( (f/s)^(1/y) - 1 )
-#     computed on draws, summarised as median + 95% CrI
-#   - Plot 1: composite occupancy (median + 95% CrI ribbon + dashed bounds)
-#             + endpoint marker + curved leader to label change start→end
-#   - Plot 2: growth rate by zone (median + 95% CrI)
-#
-# NOTE:
-# - This uses Beta(mean, sd) approximation to reconstruct posterior uncertainty.
-# - True replication would use posterior samples from the model; this is a
-#   practical substitute when only BUGS summaries are available.
+# multispecies trends
 ############################################
 
 suppressPackageStartupMessages({
@@ -32,7 +16,7 @@ suppressPackageStartupMessages({
 # ----------------------------
 # 0) USER SETTINGS
 # ----------------------------
-setwd("C:/Users/georg/OneDrive - University of Reading/George Allen - PhD Master Folder/Year Three/Chapter 2 - Occupancy Modelling/Analysis Nov 2025/Nov_Outhwaite_Outputs")
+setwd("anon")
 
 bugs_file <- "Combined_BUGS_Data_Outhwaite_finalclustv5_32000iterations_FINAL_WITH_TAXCORR.csv"
 
@@ -44,7 +28,7 @@ zones_keep <- c("Core", "Buffer", "Outside")
 
 # Monte Carlo settings
 set.seed(1)
-n_draws <- 999   # increase if you want smoother CrIs; 2000 is usually a good balance
+n_draws <- 999   
 
 # Outputs
 out_csv_clean   <- "BUGS_psi_fs_r_byZone_byYear_2000_2023.csv"
@@ -56,7 +40,6 @@ out_jpg_occ  <- "Cooke_style_composite_geo_occ_2000_2023.jpg"
 out_png_gr   <- "Cooke_style_growth_rate_2000_2023.png"
 out_jpg_gr   <- "Cooke_style_growth_rate_2000_2023.jpg"
 
-# This matches exactly: psi.fs.r_Core[10], psi.fs.r_Buffer[10], psi.fs.r_Outside[10]
 psi_zone_regex <- "^psi\\.fs\\.r_(Core|Buffer|Outside)\\[(\\d+)\\]$"
 
 # Plot colours
@@ -161,7 +144,7 @@ draws_long <- plot_df %>%
 
 # ----------------------------
 # 5) COMPOSITE MULTISPECIES GEOMETRIC MEAN BY ZONE-YEAR (PER DRAW)
-# Cooke-style: propagate uncertainty then summarise as median + 95% CrI
+# propagate uncertainty then summarise as median + 95% CrI
 # ----------------------------
 zone_year_draw_gm <- draws_long %>%
   group_by(Zone, Year, draw_id) %>%
@@ -181,7 +164,7 @@ write.csv(zone_trend, out_csv_comp, row.names = FALSE)
 cat("\nSaved composite occupancy summaries:", out_csv_comp, "\n")
 
 # ----------------------------
-# 6) CHANGE (START -> END) + LABEL DATA (Cooke-style endpoint annotation)
+# 6) CHANGE (START -> END) + LABEL DATA (endpoint annotation)
 # ----------------------------
 zone_change <- zone_trend %>%
   filter(Year %in% c(start_year, end_year)) %>%
@@ -2977,3 +2960,4 @@ cat("    species in ALL zones over the study period.\n")
 cat("  • The annual growth rate is the average % change per year over\n")
 cat("    ", y_years, " years, calculated on the composite draws.\n", sep = "")
 cat("=============================================================================\n")
+
