@@ -1,30 +1,5 @@
 ############################################
-# Cooke et al. (2023)-style GUILD composite trends + growth rates (2000–2023)
-# Self-contained script: run top-to-bottom.
-#
-# Data inputs:
-#   1) Combined BUGS summary CSV containing psi.fs.r_{Zone}[YearIndex] rows
-#   2) Guild lookup CSV containing Species + Guild columns
-#
-# Method:
-#   - Propagate uncertainty using Beta(mean, sd) Monte Carlo draws per species×zone×year
-#   - Composite = geometric mean across species within Guild×Zone×Year per draw
-#   - Summaries = median + 95% credible intervals (2.5%, 97.5%)
-#   - Growth rate (% annual) from start_year to end_year:
-#       100 * ( (f/s)^(1/y) - 1 )
-#     computed on draws, summarised as median + 95% CrI
-#
-# Outputs:
-#   - BUGS_psi_fs_r_byZone_byYear_2000_2023.csv
-#   - guild_composite_trends_2000_2023.csv
-#   - guild_composite_growth_rates_2000_2023.csv
-#   - GuildCompositeTrendPlots/guild_composite_trends_2000_2023_endLabels_%perYear.png
-#
-# Plot:
-#   - Facets per Guild (ordered by n species, high→low)
-#   - Ribbon = 95% CrI; dashed CI edges
-#   - Endpoint marker + curved leader + label
-#   - Endpoint label shows ONLY annual growth (%/yr), no CI (space-saving)
+# GUILD composite trends + growth rates (2000–2023)
 ############################################
 
 suppressPackageStartupMessages({
@@ -41,7 +16,7 @@ suppressPackageStartupMessages({
 # ----------------------------
 # 0) USER SETTINGS
 # ----------------------------
-setwd("C:/Users/georg/OneDrive - University of Reading/George Allen - PhD Master Folder/Year Three/Chapter 2 - Occupancy Modelling/Analysis Nov 2025/Nov_Outhwaite_Outputs")
+setwd("anon")
 
 bugs_file  <- "Combined_BUGS_Data_Outhwaite_finalclustv5_32000iterations_FINAL_WITH_TAXCORR.csv"
 guild_path <- "combined_all_parks_with_guild_TAXCORR_ADDED.csv"
@@ -991,6 +966,7 @@ ggsave(p_conv, filename = out_png_conv, width = 12, height = 10, dpi = 1000)
 ggsave(p_conv, filename = out_jpg_conv, width = 12, height = 10, dpi = 1000)
 
 cat("\nSaved converged-only guild plot:\n  ", out_png_conv, "\n  ", out_jpg_conv, "\n", sep = "")
+
 
 
 
