@@ -1,31 +1,5 @@
 ############################################################
 # TAXONOMIC WORKFLOW: diagnosis → guild update → TAXCORR records → guild totals
-#
-# What this script does (for Methods / Supplement description):
-#
-#  1) Load raw AllParks records (cleaned GBIF extract)
-#  2) Diagnose taxonomic issues:
-#       - legacy genus names → current names (syn_map)
-#       - cryptic species lumping (lump_map)
-#       - write out which pairs actually occur in the data
-#  3) Update the guild lookup file to include TAXCORR names
-#  4) Apply TAXCORR names to all raw records (species_taxcorr)
-#  5) Filter records to 2000–2023 and link to BUGS_FINAL species
-#  6) Recompute guild-level summaries:
-#       - Number_of_Records
-#       - Number_of_Species
-#       - Grid_Cells_Occupied
-#
-# Key inputs:
-#   - AllParks_records_FinalFiltered_Better2.csv
-#   - combined_all_parks_with_guild.csv
-#   - Combined_BUGS_Data_Outhwaite_finalclustv5_32000iterations_FINAL_WITH_TAXCORR.csv
-#
-# Key outputs:
-#   - taxonomic_pairs_present_in_dataset.csv
-#   - combined_all_parks_with_guild_TAXCORR_ADDED.csv
-#   - species_trace_TAXCORR_vs_records.csv
-#   - Guild_summary_TAXCORR_2000_2023_from_610species.csv
 ############################################################
 
 suppressPackageStartupMessages({
@@ -39,10 +13,10 @@ suppressPackageStartupMessages({
 # 0) Paths, working directory, helpers
 # ----------------------------------------------------------
 
-setwd("C:/Users/georg/OneDrive - University of Reading/George Allen - PhD Master Folder/Year Three/Chapter 2 - Occupancy Modelling/Analysis Nov 2025/Nov_Outhwaite_Outputs")
+setwd("anon")
 
-records_path      <- "C:/Users/georg/OneDrive - University of Reading/George Allen - PhD Master Folder/Year One/Statistics/Mapping/GBIF Sink Source AllParks/R analysis - 25.11.2024/R final/AllParks_records_FinalFiltered_Better2.csv"
-guild_path_in     <- "C:/Users/georg/OneDrive - University of Reading/George Allen - PhD Master Folder/Year Two/Chapter Two - GBIF 50km/GBIF paper edits_GA/Data/R scripts and data/combined_all_parks_with_guild.csv"
+records_path      <- "anon/AllParks_records_FinalFiltered_Better2.csv"
+guild_path_in     <- "anon/combined_all_parks_with_guild.csv"
 guild_path_out    <- "combined_all_parks_with_guild_TAXCORR_ADDED.csv"
 bugs_final_path   <- "Combined_BUGS_Data_Outhwaite_finalclustv5_32000iterations_FINAL_WITH_TAXCORR.csv"
 
@@ -504,4 +478,5 @@ cat("==========================================================================\
 
 # (optional) save
 write_csv(guild_est_totals, "Guild_totals_species_year_zone_estimates.csv")
+
 
