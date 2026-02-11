@@ -1,4 +1,4 @@
-# George Allen 08.02.2024 - Modelling Occupancy of insects in France's National Parks
+# Modelling Occupancy of insects in France's National Parks
 
 options(repos = c(CRAN = "https://cran.rstudio.com/"))
 
@@ -248,7 +248,8 @@ combined_data <- do.call(rbind, lapply(names(para_out), function(species) {
 
 # Save the combined data to a single CSV file
 write.csv(combined_data,
-          "Combined_BUGS_Data_Outhwaite_finalclustv5_32000iterations.csv",
+          "Combined_BUGS_Data_Out_finalclustv5_32000iterations.csv",
           row.names = FALSE)
 
-saveRDS(para_out, "Outhwaite_model_finalclustv5.rds")
+saveRDS(para_out, "Out_model_finalclustv5.rds")
+
