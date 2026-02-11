@@ -1,46 +1,5 @@
 ############################################
-# 4_NMDS_Turnover_and_CommunitySpace_with_Uncertainty_Outhwaite
-# Standalone script (run top-to-bottom)
-#
-# INPUT:
-#   - Combined BUGS summary CSV containing psi.fs.r_{Zone}[YearIndex]
-#     with columns at least: Parameter, Species, mean, sd
-#
-# UNCERTAINTY PROPAGATION (Cooke/Outhwaite-style approximation):
-#   - For each Species × Zone × Year cell, reconstruct a Beta distribution
-#     from BUGS posterior mean + sd
-#   - Monte Carlo draw one occupancy per cell per draw
-#   - For each draw:
-#       * build Zone-Year × Species community matrix
-#       * NMDS (Bray–Curtis, k=2)
-#       * Procrustes-align to a reference NMDS (computed on posterior means)
-#       * compute interannual turnover per zone = Euclidean step distance in aligned NMDS space
-#       * save aligned NMDS site coordinates per Zone-Year for "community space" visualisation
-#   - Summaries:
-#       * Turnover (Zone×Year): median + 95% CrI
-#       * NMDS site coords (Zone×Year): median + 95% CrI for NMDS1 and NMDS2
-#
-# OUTPUTS (all prefixed "4_"):
-#   - Reference ordination (means):
-#       4_NMDS_Ordination_REFERENCE_MEANS_2000_2023.png/.jpg
-#   - Uncertainty-aware ordination:
-#       4_NMDS_Ordination_WITH_UNCERTAINTY_2000_2023.png/.jpg
-#       4_NMDS_Ordination_DrawCloud_2000_2023.png/.jpg
-#   - Turnover:
-#       4_NMDS_Interannual_Turnover_WITH_UNCERTAINTY_2000_2023.png/.jpg
-#   - Tables:
-#       4_NMDS_Turnover_Draws_Long_2000_2023.csv
-#       4_NMDS_Turnover_Summary_ZoneYear_2000_2023.csv
-#       4_NMDS_SiteScores_Draws_Long_2000_2023.csv
-#       4_NMDS_SiteScores_Summary_2000_2023.csv
-#       4_NMDS_Summary_Tables_2000_2023.xlsx
-#
-# NOTES:
-#   - Running NMDS hundreds/thousands of times is computationally expensive.
-#     Start with n_draws_nmds = 200–400 and increase if needed.
-#   - Procrustes alignment is essential: NMDS solutions are only defined up to
-#     rotation/reflection/translation. We align each draw to the reference.
-#   - PERMANOVA is run on the reference (posterior mean) matrix only.
+# 4_NMDS_Turnover_and_CommunitySpace_with_Uncertainty
 ############################################
 
 suppressPackageStartupMessages({
@@ -57,7 +16,7 @@ suppressPackageStartupMessages({
 # ----------------------------
 # 0) USER SETTINGS
 # ----------------------------
-setwd("C:/Users/georg/OneDrive - University of Reading/George Allen - PhD Master Folder/Year Three/Chapter 2 - Occupancy Modelling/Analysis Nov 2025/Nov_Outhwaite_Outputs")
+setwd("anon")
 
 bugs_file <- "Combined_BUGS_Data_Outhwaite_finalclustv5_32000iterations_FINAL_WITH_TAXCORR.csv"
 
@@ -1746,3 +1705,4 @@ write.csv(species_change_summary, out_spchange_sum_csv,  row.names = FALSE)
 cat("\nSaved species change draws:\n  ", out_spchange_draws_csv, "\n")
 cat("Saved species change summary:\n  ", out_spchange_sum_csv, "\n")
 print(species_change_summary)
+
