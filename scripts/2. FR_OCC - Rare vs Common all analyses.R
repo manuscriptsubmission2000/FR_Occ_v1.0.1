@@ -17,10 +17,10 @@ suppressPackageStartupMessages({
 # ----------------------------
 # 0) USER SETTINGS (shared)
 # ----------------------------
-setwd("C:/Users/georg/OneDrive - University of Reading/George Allen - PhD Master Folder/Year Three/Chapter 2 - Occupancy Modelling/Analysis Nov 2025/Nov_Outhwaite_Outputs")
+setwd("anon")
 
 bugs_file <- "Combined_BUGS_Data_Outhwaite_finalclustv5_32000iterations_FINAL_WITH_TAXCORR.csv"
-allparks_path <- "C:/Users/georg/OneDrive - University of Reading/George Allen - PhD Master Folder/Year One/Statistics/Mapping/GBIF Sink Source AllParks/R analysis - 25.11.2024/R final/AllParks_records_FinalFiltered_Better2.csv"
+allparks_path <- "anon/AllParks_records_FinalFiltered_Better2.csv"
 
 start_year <- 2000
 end_year   <- 2023
@@ -3549,4 +3549,5 @@ saveWorkbook(wb_prop, excel_out_prop, overwrite = TRUE)
 
 cat("\nSaved Excel workbook (proportional representation):\n  ",
     excel_out_prop, "\n", sep = "")
+
 
